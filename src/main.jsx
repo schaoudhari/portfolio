@@ -19,7 +19,6 @@ const SectionTitle = ({ eyebrow, title, text }) => (
 const SkillGroup = ({ name, items, index }) => (
   <article className="skill-card reveal" style={{ "--delay": `${index * 60}ms` }}>
     <div className="skill-card-top">
-      <span className="skill-index">0{index + 1}</span>
       <h3>{name}</h3>
     </div>
     <div className="skill-list">
@@ -31,7 +30,6 @@ const SkillGroup = ({ name, items, index }) => (
 const ProjectCard = ({ project, index, onOpen }) => (
   <article className="project-card reveal" style={{ "--delay": `${index * 80}ms` }}>
     <div className="project-top">
-      <span className="project-number">0{index + 1}</span>
       <ArrowUpRight size={19} />
     </div>
     <span className="project-label">{project.label}</span>
@@ -135,7 +133,7 @@ function App() {
         </section>
 
         <section id="about" className="section narrow">
-          <SectionTitle eyebrow="01 — About" title="Engineering with a full-stack perspective." text={portfolio.extendedSummary} />
+          <SectionTitle eyebrow="About" title="Engineering with a full-stack perspective." text={portfolio.extendedSummary} />
           <div className="about-grid">
             <div className="about-statement reveal">
               <Sparkles size={24} />
@@ -153,7 +151,7 @@ function App() {
 
         <section id="skills" className="section alt">
           <div className="narrow">
-            <SectionTitle eyebrow="02 — Technical Skills" title="Technical skills." text="Frontend, backend, data, security, and financial modeling." />
+            <SectionTitle eyebrow="Technical Skills" title="Technical skills." text="Frontend, backend, data, security, and financial modeling." />
             <div className="skills-grid">
               {Object.entries(portfolio.skills).map(([name, items], i) => <SkillGroup key={name} name={name} items={items} index={i} />)}
             </div>
@@ -161,7 +159,7 @@ function App() {
         </section>
 
         <section id="projects" className="section narrow">
-          <SectionTitle eyebrow="03 — Featured Projects" title="Selected work." />
+          <SectionTitle eyebrow="Featured Projects" title="Selected work." />
           <div className="projects-grid">
             {portfolio.projects.map((project, i) => <ProjectCard key={project.title} project={project} index={i} onOpen={setActiveProject} />)}
           </div>
@@ -169,11 +167,11 @@ function App() {
 
         <section id="experience" className="section alt">
           <div className="narrow">
-            <SectionTitle eyebrow="04 — Experience" title="Professional experience." />
+            <SectionTitle eyebrow="Experience" title="Professional experience." />
             <div className="timeline">
               {portfolio.experience.map((job, i) => (
                 <article className="timeline-item reveal" key={job.company}>
-                  <div className="timeline-marker">{String(i + 1).padStart(2, "0")}</div>
+                  <div className="timeline-marker" aria-hidden="true" />
                   <div className="timeline-content">
                     <div className="timeline-head">
                       <div><h3>{job.role}</h3><p>{job.company}</p></div>
@@ -188,7 +186,7 @@ function App() {
         </section>
 
         <section id="engineering" className="section narrow">
-          <SectionTitle eyebrow="05 — Engineering" title="Engineering focus." />
+          <SectionTitle eyebrow="Engineering" title="Engineering focus." />
           <div className="engineering-grid">
             {[
               { icon: <Layers3 />, title: "Financial Modeling", text: "Budget-vs-actual models, cash-flow projections from payment schedules, loan amortization, variance and gap analysis, and financial-year reporting." },
@@ -207,7 +205,7 @@ function App() {
 
         <section className="section education alt">
           <div className="narrow education-row">
-            <div><span className="eyebrow">06 — Education</span><h2>{portfolio.education.degree}</h2><p>{portfolio.education.college} · {portfolio.education.year}</p></div>
+            <div><span className="eyebrow">Education</span><h2>{portfolio.education.degree}</h2><p>{portfolio.education.college} · {portfolio.education.year}</p></div>
             <div className="education-score">{portfolio.education.score}</div>
           </div>
         </section>
@@ -215,7 +213,7 @@ function App() {
         <section id="contact" className="section contact-section">
           <div className="contact-card narrow reveal">
             <div>
-              <span className="eyebrow">07 — Contact</span>
+              <span className="eyebrow">Contact</span>
               <h2>Let's build something useful.</h2>
               <p>Open to Full Stack Developer and FinTech software roles. Reach out by email or LinkedIn.</p>
             </div>
