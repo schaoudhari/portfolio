@@ -1,0 +1,157 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import { portfolio } from "../data/portfolio";
+
+const sections = ["about", "skills", "projects", "experience", "contact"];
+const skillGroups = Object.keys(portfolio.skills);
+const categories = ["All", ...new Set(portfolio.projects.map((p) => p.category))];
+const year = new Date().getFullYear();
+const description = `${portfolio.shortName} — Full Stack Software Developer with 2+ years of experience building financial planning and modeling software, accounting integrations, REST APIs and enterprise web applications.`;
+---
+<Layout description={description}>
+  <a class="skip" href="#about">Skip to content</a>
+
+  <header class="nav">
+    <a href="#top" class="brand">{portfolio.shortName}</a>
+    <nav aria-label="Primary">
+      {sections.map((id) => <a href={`#${id}`} data-nav>{id[0].toUpperCase() + id.slice(1)}</a>)}
+    </nav>
+    <div class="nav-actions">
+      <a class="btn small" href="/resume.pdf" download><Icon name="download" size={15} /> <span>Resume</span></a>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle theme">
+        <span class="icon-sun"><Icon name="sun" /></span>
+        <span class="icon-moon"><Icon name="moon" /></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <p class="hero-kicker"><Icon name="map-pin" size={15} /> {portfolio.location}</p>
+      <h1>{portfolio.shortName}.<br /><span>Full Stack Developer building financial software.</span></h1>
+      <p class="hero-lead">{portfolio.summary}</p>
+      <div class="actions">
+        <a class="btn primary" href="#projects">View projects <Icon name="arrow-up-right" size={16} /></a>
+        <a class="btn" href={`mailto:${portfolio.email}`}><Icon name="mail" size={16} /> Email me</a>
+      </div>
+    </section>
+
+    <section id="about" class="wrap section">
+      <div class="heading reveal"><span class="eyebrow">About</span><h2>Financial models, APIs and dashboards.</h2></div>
+      <p class="lead reveal">{portfolio.extendedSummary}</p>
+      <dl class="facts reveal">
+        <div><dt>2+</dt><dd>Years of experience</dd></div>
+        <div><dt>MERN</dt><dd>Full-stack foundation</dd></div>
+        <div><dt>Finance</dt><dd>Models &amp; reporting</dd></div>
+      </dl>
+    </section>
+
+    <section id="skills" class="wrap section">
+      <div class="heading reveal"><span class="eyebrow">Skills</span><h2>Technical skills.</h2></div>
+      <div class="reveal">
+        <div class="chips" id="skill-chips" role="group" aria-label="Skill categories">
+          {skillGroups.map((g, i) => <button class="chip" type="button" data-value={g} aria-pressed={i === 0}>{g}</button>)}
+        </div>
+        {skillGroups.map((g, i) => (
+          <ul class="skill-list" data-skill-group={g} hidden={i !== 0} aria-label={`${g} skills`}>
+            {portfolio.skills[g].map((item) => <li>{item}</li>)}
+          </ul>
+        ))}
+      </div>
+    </section>
+
+    <section id="projects" class="wrap section">
+      <div class="heading reveal"><span class="eyebrow">Projects</span><h2>Selected work.</h2></div>
+      <div class="reveal">
+        <div class="chips" id="project-chips" role="group" aria-label="Filter projects">
+          {categories.map((c, i) => <button class="chip" type="button" data-value={c} aria-pressed={i === 0}>{c}</button>)}
+        </div>
+        <div class="projects">
+          {portfolio.projects.map((project, i) => (
+            <button class="project" type="button" data-category={project.category} data-dialog={`project-${i}`}>
+              <span class="project-label">{project.label}</span>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <span class="tags">{project.stack.map((t) => <span>{t}</span>)}</span>
+              <span class="project-more">View details <Icon name="arrow-up-right" size={16} /></span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="wrap section">
+      <div class="heading reveal"><span class="eyebrow">Experience</span><h2>Where I've worked.</h2></div>
+      <div class="jobs reveal">
+        {portfolio.experience.map((job, i) => (
+          <article class={i === 0 ? "job open" : "job"}>
+            <button class="job-head" type="button" aria-expanded={i === 0} aria-controls={`job-${i}`}>
+              <span><strong>{job.role}</strong><span class="job-co">{job.company}</span></span>
+              <span class="job-meta">{job.period}<Icon name="chevron-down" /></span>
+            </button>
+            <div class="job-body" id={`job-${i}`} role="region">
+              <div class="job-inner">
+                <p class="job-summary">{job.summary}</p>
+                {job.groups.map((group) => (
+                  <section class="job-group">
+                    <div class="job-group-head">
+                      <h3>{group.title}</h3>
+                      {group.tags && <span class="tags">{group.tags.map((t) => <span>{t}</span>)}</span>}
+                    </div>
+                    <ul>{group.bullets.map((b) => <li>{b}</li>)}</ul>
+                  </section>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="edu reveal"><strong>{portfolio.education.degree}</strong> · {portfolio.education.college} · {portfolio.education.year} · {portfolio.education.score}</p>
+    </section>
+
+    <section id="contact" class="wrap section">
+      <div class="contact reveal">
+        <div>
+          <span class="eyebrow">Contact</span>
+          <h2>Let's build something useful.</h2>
+          <p>Open to Full Stack Developer and FinTech software roles.</p>
+        </div>
+        <div class="contact-links">
+          <a class="btn primary" href={`mailto:${portfolio.email}`}><Icon name="mail" size={16} /> Email me</a>
+          <a class="btn" href={portfolio.linkedin} target="_blank" rel="noreferrer"><Icon name="linkedin" size={16} /> LinkedIn</a>
+          <a class="btn" href={portfolio.github} target="_blank" rel="noreferrer"><Icon name="github" size={16} /> GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer wrap">
+    <span>© {year} {portfolio.shortName}</span>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  {portfolio.projects.map((project, i) => (
+    <dialog id={`project-${i}`} class="dialog" aria-labelledby={`project-${i}-title`}>
+      <button class="icon-btn dialog-close" type="button" data-close aria-label="Close details"><Icon name="x" size={20} /></button>
+      <span class="project-label">{project.label}</span>
+      <h2 id={`project-${i}-title`}>{project.title}</h2>
+      <p class="dialog-lead">{project.description}</p>
+      <div class="tags">{project.stack.map((t) => <span>{t}</span>)}</div>
+      <h3>What I built</h3>
+      <ul>{project.highlights.map((h) => <li>{h}</li>)}</ul>
+      <h3>Architecture</h3>
+      <p class="flow">
+        {project.architecture.map((a, j) => (
+          <>
+            <span>{a}</span>{j < project.architecture.length - 1 && <b aria-hidden="true">→</b>}
+          </>
+        ))}
+      </p>
+    </dialog>
+  ))}
+
+  <script>
+    import "../scripts/ui.js";
+  </script>
+</Layout>

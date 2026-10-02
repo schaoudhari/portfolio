@@ -1,0 +1,35 @@
+---
+import "../styles.css";
+import { portfolio } from "../data/portfolio";
+
+const { description } = Astro.props;
+const title = `${portfolio.shortName} | ${portfolio.title}`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content={portfolio.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+    <!-- Runs before first paint so the saved theme never flashes. -->
+    <script is:inline>
+      (function () {
+        var theme = "light";
+        try { theme = localStorage.getItem("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); } catch (e) {}
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.classList.add("js");
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
